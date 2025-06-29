@@ -9,7 +9,7 @@ public sealed class Filter : IExposable
 {
     public ApparelLayerDef apparelLayerDef;
 
-    public List<HashApparel> filteredApparels = Utilities.hashApparels;
+    public List<HashApparel> filteredApparels = Utilities.HashApparels;
 
     public string filterString = "";
 
@@ -40,7 +40,7 @@ public sealed class Filter : IExposable
     public List<HashApparel> FilteredApparels()
     {
         var list = new List<HashApparel>();
-        list.AddRange(Utilities.hashApparels);
+        list.AddRange(Utilities.HashApparels);
         filteredApparels = list.Where(x =>
             (techLevel == TechLevel.Undefined || x.techLevel == techLevel) &&
             (apparelLayerDef == null || x.apparelLayerDef == apparelLayerDef.LabelCap) &&

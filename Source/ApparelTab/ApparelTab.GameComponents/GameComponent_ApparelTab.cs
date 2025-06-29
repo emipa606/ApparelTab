@@ -5,7 +5,7 @@ namespace ApparelTab.GameComponents;
 
 public class GameComponent_ApparelTab : GameComponent
 {
-    public readonly Filter filter = new Filter();
+    public readonly Filter filter = new();
 
     public GameComponent_ApparelTab()
     {

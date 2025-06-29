@@ -9,35 +9,35 @@ namespace ApparelTab;
 [StaticConstructorOnStartup]
 public static class Utilities
 {
-    public static readonly List<HashApparel> hashApparels;
+    public static readonly List<HashApparel> HashApparels;
 
-    public static readonly List<ApparelLayerDef> apparelLayerDefs;
+    public static readonly List<ApparelLayerDef> ApparelLayerDefs;
 
-    public static readonly List<ModContentPack> mods;
+    public static readonly List<ModContentPack> Mods;
 
     static Utilities()
     {
-        hashApparels = [];
-        apparelLayerDefs = [];
-        mods = [];
+        HashApparels = [];
+        ApparelLayerDefs = [];
+        Mods = [];
         foreach (var item in DefDatabase<ThingDef>.AllDefsListForReading.Where(d => d.IsApparel).ToList())
         {
             var hashApparel = new HashApparel();
             hashApparel.PreAddSettings(item);
-            hashApparels.Add(hashApparel);
-            if (item.modContentPack != null && !mods.Contains(item.modContentPack))
+            HashApparels.Add(hashApparel);
+            if (item.modContentPack != null && !Mods.Contains(item.modContentPack))
             {
-                mods.Add(item.modContentPack);
+                Mods.Add(item.modContentPack);
             }
 
-            if (item.apparel.LastLayer != null && !apparelLayerDefs.Contains(item.apparel.LastLayer))
+            if (item.apparel.LastLayer != null && !ApparelLayerDefs.Contains(item.apparel.LastLayer))
             {
-                apparelLayerDefs.Add(item.apparel.LastLayer);
+                ApparelLayerDefs.Add(item.apparel.LastLayer);
             }
         }
     }
 
-    public static Color BgColorButton => new Color(21f / 128f, 21f / 128f, 21f / 128f);
+    public static Color BgColorButton => new(21f / 128f, 21f / 128f, 21f / 128f);
 
-    public static Color BgColorDarkButton => new Color(0.5f, 0.5f, 0.5f);
+    public static Color BgColorDarkButton => new(0.5f, 0.5f, 0.5f);
 }

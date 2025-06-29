@@ -1,4 +1,4 @@
-# [Apparel Tab+ (Continued)]()
+# [Apparel Tab+ (Continued)](https://steamcommunity.com/sharedfiles/filedetails/?id=3417112717)
 
 ![Image](https://i.imgur.com/buuPQel.png)
 
@@ -46,4 +46,6 @@ Note that the filtering happens from left to right.
 -  If you have the solution for a problem, please post it to the GitHub repository.
 -  Use [RimSort](https://github.com/RimSort/RimSort/releases/latest) to sort your mods
 
+ 
 
+[![Image](https://img.shields.io/github/v/release/emipa606/ApparelTab?label=latest%20version&style=plastic&color=9f1111&labelColor=black)](https://steamcommunity.com/sharedfiles/filedetails/changelog/3417112717) | tags:  filtering

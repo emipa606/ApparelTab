@@ -9,7 +9,7 @@ namespace ApparelTab.GUI;
 
 public class MainTabWindow_ApparelTab : MainTabWindow
 {
-    public Vector2 scrollPosition = Vector2.zero;
+    private Vector2 scrollPosition = Vector2.zero;
 
     public MainTabWindow_ApparelTab()
     {
@@ -19,9 +19,9 @@ public class MainTabWindow_ApparelTab : MainTabWindow
         doCloseX = false;
     }
 
-    public override Vector2 InitialSize => new Vector2(1360f, 700f);
+    public override Vector2 InitialSize => new(1360f, 700f);
 
-    public Filter Filter => Current.Game.GetComponent<GameComponent_ApparelTab>().filter;
+    private static Filter Filter => Current.Game.GetComponent<GameComponent_ApparelTab>().filter;
 
     protected override void SetInitialSizeAndPosition()
     {
@@ -63,14 +63,14 @@ public class MainTabWindow_ApparelTab : MainTabWindow
             Find.WindowStack.Add(new FloatMenu(list));
         }
 
-        Button(rect4, ref Filter.sortByLevel);
+        button(rect4, ref Filter.sortByLevel);
         var rect5 = new Rect(rect4.x + rect4.width + 10f, rect4.y, 120f, rect4.height);
         string text = Filter.apparelLayerDef?.LabelCap ?? "ApparelTab.GUI.Null".Translate();
         if (Widgets.CustomButtonText(ref rect5, "ApparelTab.GUI.ApparelLayerDef".Translate() + ": \n" + text,
                 Utilities.BgColorButton, Color.white, Color.white))
         {
             var list2 = new List<FloatMenuOption>();
-            foreach (var apparelLayerDef in Utilities.apparelLayerDefs)
+            foreach (var apparelLayerDef in Utilities.ApparelLayerDefs)
             {
                 list2.Add(new FloatMenuOption(apparelLayerDef.LabelCap, delegate
                 {
@@ -87,34 +87,34 @@ public class MainTabWindow_ApparelTab : MainTabWindow
             Find.WindowStack.Add(new FloatMenu(list2));
         }
 
-        Button(rect5, ref Filter.sortByLayer);
+        button(rect5, ref Filter.sortByLayer);
         var rect6 = new Rect(rect5.x + rect5.width + 10f, rect5.y, 100f, rect5.height);
         Widgets.CustomButtonText(ref rect6, "ApparelTab.GUI.ArmorBlunt".Translate(), Utilities.BgColorButton,
             Color.white, Color.white);
-        Button(rect6, ref Filter.sortByArmorBlunt);
+        button(rect6, ref Filter.sortByArmorBlunt);
         var rect7 = new Rect(rect6.x + rect6.width + 10f, rect6.y, 100f, rect6.height);
         Widgets.CustomButtonText(ref rect7, "ApparelTab.GUI.ArmorSharp".Translate(), Utilities.BgColorButton,
             Color.white, Color.white);
-        Button(rect7, ref Filter.sortByArmorSharp);
+        button(rect7, ref Filter.sortByArmorSharp);
         var rect8 = new Rect(rect7.x + rect7.width + 10f, rect7.y, 100f, rect7.height);
         Widgets.CustomButtonText(ref rect8, "ApparelTab.GUI.ArmorHeat".Translate(), Utilities.BgColorButton,
             Color.white, Color.white);
-        Button(rect8, ref Filter.sortByArmorHeat);
+        button(rect8, ref Filter.sortByArmorHeat);
         var rect9 = new Rect(rect8.x + rect8.width + 10f, rect8.y, 100f, rect8.height);
         Widgets.CustomButtonText(ref rect9, "ApparelTab.InsulationCold".Translate(), Utilities.BgColorButton,
             Color.white, Color.white);
-        Button(rect9, ref Filter.sortByInsulationCold);
+        button(rect9, ref Filter.sortByInsulationCold);
         var rect10 = new Rect(rect9.x + rect9.width + 10f, rect9.y, 100f, rect9.height);
         Widgets.CustomButtonText(ref rect10, "ApparelTab.GUI.InsulationHeat".Translate(), Utilities.BgColorButton,
             Color.white, Color.white);
-        Button(rect10, ref Filter.sortByInsulationHeat);
+        button(rect10, ref Filter.sortByInsulationHeat);
         var rect11 = new Rect(rect10.x + rect10.width + 10f, rect10.y, 100f, rect10.height);
         var text2 = Filter.mod == null ? "ApparelTab.GUI.Null".Translate().ToString() : Filter.mod.Name;
         if (Widgets.CustomButtonText(ref rect11, "ApparelTab.GUI.Mod".Translate() + ":\n" + text2,
                 Utilities.BgColorButton, Color.white, Color.white))
         {
             var list3 = new List<FloatMenuOption>();
-            foreach (var mod in Utilities.mods)
+            foreach (var mod in Utilities.Mods)
             {
                 list3.Add(new FloatMenuOption(mod.Name, delegate
                 {
@@ -131,7 +131,7 @@ public class MainTabWindow_ApparelTab : MainTabWindow
             Find.WindowStack.Add(new FloatMenu(list3));
         }
 
-        Button(rect11, ref Filter.sortByMod);
+        button(rect11, ref Filter.sortByMod);
         var outRect = new Rect(0f, 100f, InitialSize.x - 40f, InitialSize.y - 140f);
         var viewRect = new Rect(0f, 0f, outRect.x, Filter.FilteredApparels().Count * 70);
         var num = 0;
@@ -182,7 +182,7 @@ public class MainTabWindow_ApparelTab : MainTabWindow
         Widgets.EndScrollView();
     }
 
-    public void ButtonClick(ref bool? Bool, bool Bool2)
+    private static void buttonClick(ref bool? Bool, bool Bool2)
     {
         if (Bool != Bool2)
         {
@@ -197,20 +197,20 @@ public class MainTabWindow_ApparelTab : MainTabWindow
         Filter.FilteredApparels();
     }
 
-    public void Button(Rect rect, ref bool? Bool)
+    private static void button(Rect rect, ref bool? Bool)
     {
         var rect2 = new Rect(rect.x, rect.y + rect.height + 5f, (rect.width / 2f) - 5f, 30f);
         if (Widgets.CustomButtonText(ref rect2, "▼", Utilities.BgColorButton, Color.white,
                 Bool == true ? Color.white : Color.gray))
         {
-            ButtonClick(ref Bool, true);
+            buttonClick(ref Bool, true);
         }
 
         var rect3 = new Rect(rect2.x + rect2.width + 10f, rect2.y, rect2.width, rect2.height);
         if (Widgets.CustomButtonText(ref rect3, "▲", Utilities.BgColorButton, Color.white,
                 Bool == false ? Color.white : Color.gray))
         {
-            ButtonClick(ref Bool, false);
+            buttonClick(ref Bool, false);
         }
     }
 }
