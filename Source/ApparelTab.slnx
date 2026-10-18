@@ -3,4 +3,16 @@
     <BuildType Name="Release" />
   </Configurations>
   <Project Path="ApparelTab/ApparelTab.csproj" />
+  <Folder Name="/.github/">
+    <File Path="../.github/copilot-instructions.md" />
+  </Folder>
+  <Folder Name="/XML/Languages/English/Keyed/">
+    <File Path="../Languages/English/Keyed/All.xml" />
+  </Folder>
+  <Folder Name="/XML/1.7/Defs/Misc/">
+    <File Path="../1.7/Defs/Misc/MainButtonDefs.xml" />
+  </Folder>
+  <Folder Name="/XML/About/">
+    <File Path="../About/about.xml" />
+  </Folder>
 </Solution>

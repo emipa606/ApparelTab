@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
@@ -9,9 +10,9 @@ public sealed class Filter : IExposable
 {
     public ApparelLayerDef apparelLayerDef;
 
-    public List<HashApparel> filteredApparels = Utilities.HashApparels;
-
     public string filterString = "";
+
+    public List<HashApparel> filteredApparels = Utilities.HashApparels;
 
     public ModContentPack mod;
 
@@ -46,21 +47,134 @@ public sealed class Filter : IExposable
             (apparelLayerDef == null || x.apparelLayerDef == apparelLayerDef.LabelCap) &&
             (mod == null || x.mod == mod.Name) &&
             (filterString == "" || x.def.LabelCap.ToString().ToLower().Contains(filterString.ToLower()))).ToList();
-        var source = from x in filteredApparels
-            orderby 0, sortByLevel.HasValue ? sortByLevel != true ? 0 - x.techLevel : (int)x.techLevel : 0,
-                sortByLayer.HasValue
-                    ? sortByLayer != true ? x.apparelLayerDef.Reverse().ToString() : x.apparelLayerDef
-                    : "", sortByArmorBlunt.HasValue ? sortByArmorBlunt != true ? 0f - x.armorBlunt : x.armorBlunt : 0f,
-                sortByArmorSharp.HasValue ? sortByArmorSharp != true ? 0f - x.armorSharp : x.armorSharp : 0f,
-                sortByArmorHeat.HasValue ? sortByArmorHeat != true ? 0f - x.armorHeat : x.armorHeat : 0f,
-                sortByInsulationCold.HasValue
-                    ? sortByInsulationCold != true ? 0f - x.insulation_Cold : x.insulation_Cold
-                    : 0f, sortByInsulationHeat.HasValue
-                    ? sortByInsulationHeat != true ? 0f - x.insulation_Heat : x.insulation_Heat
-                    : 0f, sortByMod != true ? "" : x.mod, sortByMod != false ? "" : x.mod descending, x.def.LabelCap
-                    .ToString()
-            select x;
-        filteredApparels = source.ToList();
+
+        var sourceList = filteredApparels.ToList();
+        sourceList.Sort((a, b) =>
+        {
+            int r;
+
+            if (sortByLevel.HasValue)
+            {
+                r = ((int)a.techLevel).CompareTo((int)b.techLevel);
+                if (!sortByLevel.Value)
+                {
+                    r = -r;
+                }
+
+                if (r != 0)
+                {
+                    return r;
+                }
+            }
+
+            if (sortByLayer.HasValue)
+            {
+                var aLayer = a.apparelLayerDef?.ToString() ?? "";
+                var bLayer = b.apparelLayerDef?.ToString() ?? "";
+                r = string.Compare(aLayer, bLayer, StringComparison.OrdinalIgnoreCase);
+                if (!sortByLayer.Value)
+                {
+                    r = -r;
+                }
+
+                if (r != 0)
+                {
+                    return r;
+                }
+            }
+
+            if (sortByArmorBlunt.HasValue)
+            {
+                r = a.armorBlunt.CompareTo(b.armorBlunt);
+                if (!sortByArmorBlunt.Value)
+                {
+                    r = -r;
+                }
+
+                if (r != 0)
+                {
+                    return r;
+                }
+            }
+
+            if (sortByArmorSharp.HasValue)
+            {
+                r = a.armorSharp.CompareTo(b.armorSharp);
+                if (!sortByArmorSharp.Value)
+                {
+                    r = -r;
+                }
+
+                if (r != 0)
+                {
+                    return r;
+                }
+            }
+
+            if (sortByArmorHeat.HasValue)
+            {
+                r = a.armorHeat.CompareTo(b.armorHeat);
+                if (!sortByArmorHeat.Value)
+                {
+                    r = -r;
+                }
+
+                if (r != 0)
+                {
+                    return r;
+                }
+            }
+
+            if (sortByInsulationCold.HasValue)
+            {
+                r = a.insulation_Cold.CompareTo(b.insulation_Cold);
+                if (!sortByInsulationCold.Value)
+                {
+                    r = -r;
+                }
+
+                if (r != 0)
+                {
+                    return r;
+                }
+            }
+
+            if (sortByInsulationHeat.HasValue)
+            {
+                r = a.insulation_Heat.CompareTo(b.insulation_Heat);
+                if (!sortByInsulationHeat.Value)
+                {
+                    r = -r;
+                }
+
+                if (r != 0)
+                {
+                    return r;
+                }
+            }
+
+            if (sortByMod.HasValue)
+            {
+                var aMod = a.mod ?? "";
+                var bMod = b.mod ?? "";
+                r = string.Compare(aMod, bMod, StringComparison.OrdinalIgnoreCase);
+                if (!sortByMod.Value)
+                {
+                    r = -r;
+                }
+
+                if (r != 0)
+                {
+                    return r;
+                }
+            }
+
+            var aLabel = a.def == null ? "" : a.def.LabelCap.ToString();
+            var bLabel = b.def == null ? "" : b.def.LabelCap.ToString();
+            return string.Compare(aLabel, bLabel, StringComparison.OrdinalIgnoreCase);
+        });
+
+        filteredApparels = sourceList;
         return filteredApparels;
     }
 }
